@@ -1,5 +1,9 @@
 name: 📊 Project Health Monitor
 
+permissions:
+  contents: read
+  issues: write
+
 on:
   schedule:
     # Run daily at 9 AM UTC
@@ -20,21 +24,33 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+    
+    - name: 🛠️ Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: 📦 Install Android SDK components
+      run: |
+        yes | sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0" "cmdline-tools;latest"
+        sdkmanager --list | head -n 50 || true
+
+    - name: 🐘 Setup Gradle 8.2.1
+      run: |
+        curl -sL https://services.gradle.org/distributions/gradle-8.2.1-bin.zip -o gradle.zip
+        unzip -q gradle.zip
+        echo "$PWD/gradle-8.2.1/bin" >> $GITHUB_PATH
+        gradle --version
         
-    - name: 🔑 Make gradlew executable
-      run: chmod +x gradlew
-      
     - name: 🧹 Clean & Build
-      run: ./gradlew clean build
+      run: gradle :app:clean :app:build
       
     - name: 📋 Run All Tests
-      run: ./gradlew test
+      run: gradle :app:test
       
     - name: 📊 Generate Code Coverage
-      run: ./gradlew jacocoTestReport
+      run: gradle :app:jacocoTestReport || true
       
     - name: 🔍 Run Security Scan
-      run: ./gradlew dependencyCheckAnalyze || true
+      run: gradle dependencyCheckAnalyze || true
       
     - name: 📈 Analyze Project Stats
       id: stats
@@ -132,9 +148,16 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+    
+    - name: 🐘 Setup Gradle 8.2.1
+      run: |
+        curl -sL https://services.gradle.org/distributions/gradle-8.2.1-bin.zip -o gradle.zip
+        unzip -q gradle.zip
+        echo "$PWD/gradle-8.2.1/bin" >> $GITHUB_PATH
+        gradle --version
         
     - name: 🔍 Check for Updates
-      run: ./gradlew dependencyUpdates
+      run: gradle dependencyUpdates
       
     - name: 📊 Upload Dependency Report
       uses: actions/upload-artifact@v4

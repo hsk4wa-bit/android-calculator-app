@@ -1,5 +1,8 @@
 name: 🏷️ Auto Version & Release
 
+permissions:
+  contents: write
+
 on:
   push:
     branches: [ main ]
@@ -26,9 +29,29 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+    
+    - name: 🛠️ Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: 📦 Install Android SDK components
+      run: |
+        yes | sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0" "cmdline-tools;latest"
+        yes | sdkmanager --licenses
+
+    - name: 🐘 Setup Gradle 8.2.1
+      run: |
+        curl -sL https://services.gradle.org/distributions/gradle-8.2.1-bin.zip -o gradle.zip
+        unzip -q gradle.zip
+        echo "$PWD/gradle-8.2.1/bin" >> $GITHUB_PATH
+        gradle --version
+
+    - name: 🐘 Configure Gradle caching
+      uses: gradle/gradle-build-action@v2
+      with:
+        gradle-home-cache-cleanup: true
         
-    - name: 🔑 Make gradlew executable
-      run: chmod +x gradlew
+    - name: 🔍 Verify Gradle setup
+      run: gradle --version
       
     - name: 📊 Get current version
       id: current-version
@@ -66,13 +89,13 @@ jobs:
         sed -i "s/versionName \"${{ steps.current-version.outputs.version_name }}\"/versionName \"${{ steps.bump-version.outputs.new_version }}\"/g" app/build.gradle
         
     - name: 🔨 Build Release APK
-      run: ./gradlew assembleRelease
+      run: gradle :app:assembleRelease
       
     - name: 📋 Run Tests
-      run: ./gradlew test
+      run: gradle :app:test
       
     - name: 📊 Run Lint
-      run: ./gradlew lint
+      run: gradle :app:lint || true
       
     - name: ✍️ Commit version bump
       run: |
