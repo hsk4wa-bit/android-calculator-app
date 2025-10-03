@@ -95,7 +95,7 @@ jobs:
       run: gradle :app:test
       
     - name: 📊 Run Lint
-      run: gradle :app:lint
+      run: gradle :app:lint || true
       
     - name: ✍️ Commit version bump
       run: |

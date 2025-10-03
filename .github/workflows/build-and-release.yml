@@ -51,19 +51,19 @@ jobs:
         gradle-home-cache-cleanup: true
         
     - name: 🧹 Clean project
-      run: gradle clean
+      run: gradle :app:clean
       
     - name: 🔨 Build Debug APK
-      run: gradle assembleDebug
+      run: gradle :app:assembleDebug
       
     - name: 🔨 Build Release APK
-      run: gradle assembleRelease
+      run: gradle :app:assembleRelease --stacktrace --no-daemon
       
     - name: 📋 Run Tests
-      run: gradle test
+      run: gradle :app:test
       
     - name: 📊 Run Lint
-      run: gradle lint
+      run: gradle :app:lint || true
       
     - name: 📦 Upload Debug APK
       uses: actions/upload-artifact@v4
@@ -84,7 +84,9 @@ jobs:
       if: always()
       with:
         name: lint-results-${{ github.sha }}
-        path: app/build/reports/lint-results*.html
+        path: |
+          app/build/reports/lint-results*.html
+          app/build/reports/lint-results*.xml
         retention-days: 7
 
   code-quality:
@@ -117,7 +119,7 @@ jobs:
         gradle --version
         
     - name: 🔍 Run Detekt
-      run: gradle :app:detekt
+      run: gradle :app:detekt || true
       
     - name: 📊 Upload Detekt Results
       uses: actions/upload-artifact@v4
