@@ -28,26 +28,40 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         
-    - name: 🐘 Setup Gradle
+    - name: 🛠️ Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: 📦 Install Android SDK components
+      run: |
+        yes | sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0" "cmdline-tools;latest"
+        yes | sdkmanager --licenses
+
+    - name: 🐘 Setup Gradle 8.2.1
+      run: |
+        curl -sL https://services.gradle.org/distributions/gradle-8.2.1-bin.zip -o gradle.zip
+        unzip -q gradle.zip
+        echo "$PWD/gradle-8.2.1/bin" >> $GITHUB_PATH
+        gradle --version
+
+    - name: 🐘 Configure Gradle caching
       uses: gradle/gradle-build-action@v2
-      
-    - name: 🔑 Make gradlew executable
-      run: chmod +x gradlew
+      with:
+        gradle-home-cache-cleanup: true
       
     - name: 🧹 Clean project
-      run: ./gradlew clean
+      run: gradle :app:clean
       
     - name: 🔨 Build Debug APK
-      run: ./gradlew assembleDebug
+      run: gradle :app:assembleDebug
       
     - name: 📋 Run Unit Tests
-      run: ./gradlew test
+      run: gradle :app:test
       
     - name: 📊 Run Lint Checks
-      run: ./gradlew lint
+      run: gradle :app:lint
       
     - name: 🔍 Run Detekt
-      run: ./gradlew detekt
+      run: gradle :app:detekt
       
     - name: 📊 Generate Test Report
       uses: dorny/test-reporter@v1
