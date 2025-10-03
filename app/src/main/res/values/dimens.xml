@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="key_height">56dp</dimen>
+    <dimen name="key_height_tall">120dp</dimen>
+    <dimen name="key_gap">8dp</dimen>
+    <dimen name="key_radius">8dp</dimen>
+    <dimen name="screen_padding">12dp</dimen>
+    <dimen name="display_padding">12dp</dimen>
+    <dimen name="digit_text_size">18sp</dimen>
+    <dimen name="op_text_size">16sp</dimen>
+    <dimen name="display_big_text">48sp</dimen>
+    <dimen name="display_small_text">18sp</dimen>
+</resources>

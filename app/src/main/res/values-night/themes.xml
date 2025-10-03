@@ -1,45 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Dark theme. -->
+    <!-- Dark theme uses same flat background/look -->
     <style name="Base.Theme.Calculator" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <item name="colorPrimary">@color/primary_dark</item>
-        <item name="colorPrimaryVariant">@color/primary_variant_dark</item>
-        <item name="colorOnPrimary">@color/on_primary</item>
-        <item name="colorSurface">@color/surface_dark</item>
-        <item name="colorOnSurface">@color/on_surface_dark</item>
-        <item name="colorSurfaceVariant">@color/surface_variant_dark</item>
-        <item name="colorOnSurfaceVariant">@color/on_surface_variant_dark</item>
+        <item name="android:colorBackground">@color/bg_all</item>
+        <item name="colorSurface">@color/bg_all</item>
+        <item name="colorOnSurface">@color/display_primary</item>
+        <item name="android:statusBarColor">@color/bg_all</item>
+        <item name="android:navigationBarColor">@color/bg_all</item>
     </style>
-    
-    <!-- Calculator Button Styles for Dark Theme -->
-    <style name="Calculator.Button.Number" parent="Calculator.Button.Base">
-        <item name="backgroundTint">@color/button_number_dark</item>
-        <item name="android:textColor">@color/on_button_number_dark</item>
-        <item name="rippleColor">@color/primary_dark</item>
-    </style>
-    
-    <style name="Calculator.Button.Operator" parent="Calculator.Button.Base">
-        <item name="backgroundTint">@color/button_operator_dark</item>
-        <item name="android:textColor">@color/on_button_operator</item>
-        <item name="rippleColor">@color/on_primary</item>
-    </style>
-    
-    <style name="Calculator.Button.Function" parent="Calculator.Button.Base">
-        <item name="backgroundTint">@color/button_function_dark</item>
-        <item name="android:textColor">@color/on_button_function_dark</item>
-        <item name="rippleColor">@color/primary_dark</item>
-    </style>
-    
-    <style name="Calculator.Button.Equals" parent="Calculator.Button.Base">
-        <item name="backgroundTint">@color/button_equals_dark</item>
-        <item name="android:textColor">@color/on_button_equals</item>
-        <item name="rippleColor">@color/on_primary</item>
-    </style>
-    
-    <style name="Calculator.Button.Memory" parent="Calculator.Button.Base">
-        <item name="backgroundTint">@color/button_memory_dark</item>
-        <item name="android:textColor">@color/on_button_memory_dark</item>
-        <item name="rippleColor">@color/primary_dark</item>
-        <item name="android:textSize">14sp</item>
-    </style>
+
+    <style name="Theme.Calculator" parent="Base.Theme.Calculator" />
 </resources>

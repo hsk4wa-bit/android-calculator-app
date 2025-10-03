@@ -1,341 +1,443 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="?attr/colorSurface">
+    android:background="@color/bg_all"
+    android:padding="@dimen/screen_padding">
 
-    <!-- Top Control Panel -->
+    <!-- Display panel -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="end"
-        android:layout_marginBottom="8dp">
-        
+        android:id="@+id/displayPanel"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/display_bg"
+        android:orientation="vertical"
+        android:padding="@dimen/display_padding"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.22"
+        android:elevation="0dp">
+
         <TextView
-            android:id="@+id/memoryIndicator"
-            android:layout_width="wrap_content"
+            android:id="@+id/displaySmall"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="M"
-            android:background="@drawable/memory_indicator_bg"
-            android:textColor="?attr/colorOnPrimary"
-            android:textSize="12sp"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="4dp"
-            android:layout_marginEnd="8dp"
-            android:visibility="gone" />
-        
-        <Button
-            android:id="@+id/btnHistory"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="History"
-            android:textSize="12sp"
-            android:layout_marginEnd="8dp"
-            style="@style/Widget.Material3.Button.OutlinedButton" />
-        
-        <Button
-            android:id="@+id/btnTheme"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="🌙"
-            android:textSize="16sp"
-            style="@style/Widget.Material3.Button.OutlinedButton" />
-    </LinearLayout>
+            android:text="000"
+            android:textColor="@color/display_small"
+            android:textSize="@dimen/display_small_text"
+            android:ellipsize="start"
+            android:maxLines="1"/>
 
-    <!-- History RecyclerView -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/historyRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_marginBottom="8dp"
-        android:background="?attr/colorSurfaceVariant"
-        android:padding="8dp"
-        android:visibility="gone" />
-
-    <!-- Display -->
-    <TextView
-        android:id="@+id/display"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@drawable/display_bg"
-        android:gravity="center_vertical|end"
-        android:padding="20dp"
-        android:text="0"
-        android:textColor="?attr/colorOnSurface"
-        android:textSize="36sp"
-        android:fontFamily="monospace"
-        android:layout_marginBottom="16dp" />
-
-    <!-- Memory Functions Row -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
-
-        <Button
-            android:id="@+id/btnMemoryClear"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="MC"
-            android:textSize="16sp"
-            style="@style/Calculator.Button.Memory" />
-
-        <Button
-            android:id="@+id/btnMemoryRecall"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="MR"
-            android:textSize="16sp"
-            style="@style/Calculator.Button.Memory" />
-
-        <Button
-            android:id="@+id/btnMemoryAdd"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="M+"
-            android:textSize="16sp"
-            style="@style/Calculator.Button.Memory" />
-
-        <Button
-            android:id="@+id/btnMemorySubtract"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="M-"
-            android:textSize="16sp"
-            style="@style/Calculator.Button.Memory" />
-
-    </LinearLayout>
-
-    <!-- Row 1: Clear, Delete, Divide -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnClear"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="2"
-            android:layout_margin="4dp"
-            android:text="C"
-            android:textSize="20sp"
-            style="@style/Calculator.Button.Function" />
-
-        <Button
-            android:id="@+id/btnDelete"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="⌫"
-            android:textSize="20sp"
-            style="@style/Calculator.Button.Function" />
-
-        <Button
-            android:id="@+id/btnDivide"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="÷"
-            android:textSize="24sp"
-            style="@style/Calculator.Button.Operator" />
-
-    </LinearLayout>
-
-    <!-- Row 2: 7, 8, 9, × -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn7"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="7"
-            android:textSize="24sp"
-            style="@style/Calculator.Button.Number" />
-
-        <Button
-            android:id="@+id/btn8"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="8"
-            android:textSize="24sp"
-            style="@style/Calculator.Button.Number" />
-
-        <Button
-            android:id="@+id/btn9"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="9"
-            android:textSize="24sp"
-            style="@style/Calculator.Button.Number" />
-
-        <Button
-            android:id="@+id/btnMultiply"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="×"
-            android:textSize="24sp"
-            style="@style/Calculator.Button.Operator" />
-
-    </LinearLayout>
-
-    <!-- Row 3: 4, 5, 6, - -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn4"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="4"
-            android:textSize="24sp"
-            style="@style/Calculator.Button.Number" />
-
-        <Button
-            android:id="@+id/btn5"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="5"
-            android:textSize="24sp"
-            style="@style/Calculator.Button.Number" />
-
-        <Button
-            android:id="@+id/btn6"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="6"
-            android:textSize="24sp"
-            style="@style/Calculator.Button.Number" />
-
-        <Button
-            android:id="@+id/btnSubtract"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="-"
-            android:textSize="28sp"
-            style="@style/Calculator.Button.Operator" />
-
-    </LinearLayout>
-
-    <!-- Row 4: 1, 2, 3, + -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn1"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="1"
-            android:textSize="24sp"
-            style="@style/Calculator.Button.Number" />
-
-        <Button
-            android:id="@+id/btn2"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="2"
-            android:textSize="24sp"
-            style="@style/Calculator.Button.Number" />
-
-        <Button
-            android:id="@+id/btn3"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="3"
-            android:textSize="24sp"
-            style="@style/Calculator.Button.Number" />
-
-        <Button
-            android:id="@+id/btnAdd"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="+"
-            android:textSize="24sp"
-            style="@style/Calculator.Button.Operator" />
-
-    </LinearLayout>
-
-    <!-- Row 5: 0, ., = -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn0"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="2"
-            android:layout_margin="4dp"
+        <TextView
+            android:id="@+id/displayBig"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="0"
-            android:textSize="24sp"
-            style="@style/Calculator.Button.Number" />
-
-        <Button
-            android:id="@+id/btnDecimal"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="."
-            android:textSize="24sp"
-            style="@style/Calculator.Button.Number" />
-
-        <Button
-            android:id="@+id/btnEquals"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="="
-            android:textSize="24sp"
-            style="@style/Calculator.Button.Equals" />
-
+            android:textAlignment="viewEnd"
+            android:gravity="end"
+            android:textColor="@color/display_primary"
+            android:textSize="@dimen/display_big_text"
+            android:maxLines="1"/>
     </LinearLayout>
 
-</LinearLayout>
+    <!-- KEYPAD GRID AREA -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/keypad"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/displayPanel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/key_gap">
+
+        <!-- Create 5 equal columns (left grid x4 + right operator) using guidelines -->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/g1"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.20" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/g2"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.40" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/g3"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.60" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/g4"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.80" />
+
+        <!-- Row 1: CHECK ◄ | CHECK ► | CORRECT 00→0 | AUTO REPLAY (col1..col4) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCheckPrev"
+            style="@style/CalcKey.Util"
+            android:text="CHECK\n◄"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/g1"
+            android:gravity="center" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCheckNext"
+            style="@style/CalcKey.Util"
+            android:text="CHECK\n►"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@id/g1"
+            app:layout_constraintEnd_toStartOf="@id/g2"
+            android:gravity="center" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCorrect"
+            style="@style/CalcKey.Util"
+            android:text="CORRECT\n00→0"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@id/g2"
+            app:layout_constraintEnd_toStartOf="@id/g3"
+            android:gravity="center" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAutoReplay"
+            style="@style/CalcKey.Util"
+            android:text="AUTO\nREPLAY"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@id/g3"
+            app:layout_constraintEnd_toStartOf="@id/g4"
+            android:gravity="center" />
+
+        <!-- Row 2: MENU  ±  √  %  ÷ (right col) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnMenu"
+            style="@style/CalcKey.Op"
+            android:text="MENU"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btnAutoReplay"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/g1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPlusMinus"
+            style="@style/CalcKey.Op"
+            android:text="±"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btnAutoReplay"
+            app:layout_constraintStart_toStartOf="@id/g1"
+            app:layout_constraintEnd_toStartOf="@id/g2" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSqrt"
+            style="@style/CalcKey.Op"
+            android:text="√"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btnAutoReplay"
+            app:layout_constraintStart_toStartOf="@id/g2"
+            app:layout_constraintEnd_toStartOf="@id/g3" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPercent"
+            style="@style/CalcKey.Op"
+            android:text="%"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btnAutoReplay"
+            app:layout_constraintStart_toStartOf="@id/g3"
+            app:layout_constraintEnd_toStartOf="@id/g4" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDivide"
+            style="@style/CalcKey.Op"
+            android:text="÷"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btnAutoReplay"
+            app:layout_constraintStart_toStartOf="@id/g4"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Row 3: AC  7  8  9   × (right col) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAC"
+            style="@style/CalcKey.Accent"
+            android:text="AC"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btnMenu"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/g1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn7"
+            style="@style/CalcKey.Digit"
+            android:text="7"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btnPlusMinus"
+            app:layout_constraintStart_toStartOf="@id/g1"
+            app:layout_constraintEnd_toStartOf="@id/g2" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn8"
+            style="@style/CalcKey.Digit"
+            android:text="8"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btnSqrt"
+            app:layout_constraintStart_toStartOf="@id/g2"
+            app:layout_constraintEnd_toStartOf="@id/g3" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn9"
+            style="@style/CalcKey.Digit"
+            android:text="9"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btnPercent"
+            app:layout_constraintStart_toStartOf="@id/g3"
+            app:layout_constraintEnd_toStartOf="@id/g4" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnMultiply"
+            style="@style/CalcKey.Op"
+            android:text="×"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btnDivide"
+            app:layout_constraintStart_toStartOf="@id/g4"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Row 4: -GST  4  5  6  + (TALL spans rows 4 & 5) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnGstMinus"
+            style="@style/CalcKey.Util"
+            android:text="-GST"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btnAC"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/g1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn4"
+            style="@style/CalcKey.Digit"
+            android:text="4"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btn7"
+            app:layout_constraintStart_toStartOf="@id/g1"
+            app:layout_constraintEnd_toStartOf="@id/g2" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn5"
+            style="@style/CalcKey.Digit"
+            android:text="5"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btn8"
+            app:layout_constraintStart_toStartOf="@id/g2"
+            app:layout_constraintEnd_toStartOf="@id/g3" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn6"
+            style="@style/CalcKey.Digit"
+            android:text="6"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btn9"
+            app:layout_constraintStart_toStartOf="@id/g3"
+            app:layout_constraintEnd_toStartOf="@id/g4" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPlus"
+            style="@style/CalcKey.Op"
+            android:text="+"
+            android:layout_height="@dimen/key_height_tall"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toTopOf="@id/btnGstMinus"
+            app:layout_constraintStart_toStartOf="@id/g4"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Row 5: +GST  1  2  3  + (continue span) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnGstPlus"
+            style="@style/CalcKey.Util"
+            android:text="+GST"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btnGstMinus"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/g1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn1"
+            style="@style/CalcKey.Digit"
+            android:text="1"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btn4"
+            app:layout_constraintStart_toStartOf="@id/g1"
+            app:layout_constraintEnd_toStartOf="@id/g2" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn2"
+            style="@style/CalcKey.Digit"
+            android:text="2"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btn5"
+            app:layout_constraintStart_toStartOf="@id/g2"
+            app:layout_constraintEnd_toStartOf="@id/g3" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn3"
+            style="@style/CalcKey.Digit"
+            android:text="3"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btn6"
+            app:layout_constraintStart_toStartOf="@id/g3"
+            app:layout_constraintEnd_toStartOf="@id/g4" />
+
+        <!-- Row 6: MU  0  00  .   = (TALL spans rows 6 & 7) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnMU"
+            style="@style/CalcKey.Op"
+            android:text="MU"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btnGstPlus"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/g1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn0"
+            style="@style/CalcKey.Digit"
+            android:text="0"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btn1"
+            app:layout_constraintStart_toStartOf="@id/g1"
+            app:layout_constraintEnd_toStartOf="@id/g2" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn00"
+            style="@style/CalcKey.Util"
+            android:text="00"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btn2"
+            app:layout_constraintStart_toStartOf="@id/g2"
+            app:layout_constraintEnd_toStartOf="@id/g3" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDot"
+            style="@style/CalcKey.Util"
+            android:text="."
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btn3"
+            app:layout_constraintStart_toStartOf="@id/g3"
+            app:layout_constraintEnd_toStartOf="@id/g4" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEquals"
+            style="@style/CalcKey.Op"
+            android:text="="
+            android:layout_height="@dimen/key_height_tall"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toTopOf="@id/btnMU"
+            app:layout_constraintStart_toStartOf="@id/g4"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Row 7: GT  MRC  M−  M+  = (continue span) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnGT"
+            style="@style/CalcKey.Op"
+            android:text="GT"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btnMU"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/g1"
+            app:layout_goneMarginTop="@dimen/key_gap" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnMRC"
+            style="@style/CalcKey.Op"
+            android:text="MRC"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btn0"
+            app:layout_constraintStart_toStartOf="@id/g1"
+            app:layout_constraintEnd_toStartOf="@id/g2" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnMMinus"
+            style="@style/CalcKey.Op"
+            android:text="M−"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btn00"
+            app:layout_constraintStart_toStartOf="@id/g2"
+            app:layout_constraintEnd_toStartOf="@id/g3" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnMPlus"
+            style="@style/CalcKey.Op"
+            android:text="M+"
+            android:layout_marginStart="@dimen/key_gap"
+            android:layout_marginTop="@dimen/key_gap"
+            android:layout_marginEnd="@dimen/key_gap"
+            app:layout_constraintTop_toBottomOf="@id/btnDot"
+            app:layout_constraintStart_toStartOf="@id/g3"
+            app:layout_constraintEnd_toStartOf="@id/g4" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

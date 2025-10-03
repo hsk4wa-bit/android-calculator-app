@@ -3,25 +3,17 @@ package com.example.calculator
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import java.text.DecimalFormat
 import kotlin.math.pow
 
 class MainActivity : AppCompatActivity() {
     
     // UI Components
-    private lateinit var display: TextView
-    private lateinit var historyRecyclerView: RecyclerView
-    private lateinit var historyAdapter: HistoryAdapter
-    private lateinit var themeToggleButton: Button
-    private lateinit var historyToggleButton: Button
-    private lateinit var memoryIndicator: TextView
+    private lateinit var display: TextView // maps to displayBig
     
     // Calculator Logic Variables
     private var currentInput = ""
@@ -33,9 +25,8 @@ class MainActivity : AppCompatActivity() {
     // Memory Function
     private var memoryValue = 0.0
     
-    // History
+    // History (no list UI; kept for future CHECK navigation)
     private val calculationHistory = mutableListOf<String>()
-    private var isHistoryVisible = false
     
     // Theme
     private lateinit var sharedPreferences: SharedPreferences
@@ -54,64 +45,61 @@ class MainActivity : AppCompatActivity() {
         
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        
+
         initializeViews()
-        setupHistoryRecyclerView()
         setupClickListeners()
         updateMemoryIndicator()
     }
     
     private fun initializeViews() {
-        display = findViewById(R.id.display)
-        historyRecyclerView = findViewById(R.id.historyRecyclerView)
-        themeToggleButton = findViewById(R.id.btnTheme)
-        historyToggleButton = findViewById(R.id.btnHistory)
-        memoryIndicator = findViewById(R.id.memoryIndicator)
-        
+        display = findViewById(R.id.displayBig)
         display.text = "0"
-    }
-    
-    private fun setupHistoryRecyclerView() {
-        historyAdapter = HistoryAdapter(calculationHistory)
-        historyRecyclerView.layoutManager = LinearLayoutManager(this)
-        historyRecyclerView.adapter = historyAdapter
-        historyRecyclerView.visibility = View.GONE
+        // displaySmall exists but not used by logic yet
     }
     
     private fun setupClickListeners() {
-        // Number buttons
-        val numberButtons = listOf(
+        // Number buttons (including 00 and dot)
+        val digitIds = listOf(
             R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4,
             R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9
         )
-        
-        numberButtons.forEachIndexed { index, buttonId ->
-            findViewById<Button>(buttonId).setOnClickListener {
-                onNumberClick(index.toString())
+        digitIds.forEach { id ->
+            findViewById<Button>(id).setOnClickListener { v ->
+                onNumberClick((v as Button).text.toString())
             }
         }
+        findViewById<Button>(R.id.btn00).setOnClickListener { onNumberClick("00") }
+        findViewById<Button>(R.id.btnDot).setOnClickListener { onDecimalClick() }
         
         // Operator buttons
-        findViewById<Button>(R.id.btnAdd).setOnClickListener { onOperatorClick("+") }
-        findViewById<Button>(R.id.btnSubtract).setOnClickListener { onOperatorClick("-") }
+        findViewById<Button>(R.id.btnPlus).setOnClickListener { onOperatorClick("+") }
         findViewById<Button>(R.id.btnMultiply).setOnClickListener { onOperatorClick("×") }
         findViewById<Button>(R.id.btnDivide).setOnClickListener { onOperatorClick("÷") }
         
         // Function buttons
         findViewById<Button>(R.id.btnEquals).setOnClickListener { onEqualsClick() }
-        findViewById<Button>(R.id.btnClear).setOnClickListener { onClearClick() }
-        findViewById<Button>(R.id.btnDelete).setOnClickListener { onDeleteClick() }
-        findViewById<Button>(R.id.btnDecimal).setOnClickListener { onDecimalClick() }
+        findViewById<Button>(R.id.btnAC).setOnClickListener { onClearClick() }
         
-        // Memory buttons
-        findViewById<Button>(R.id.btnMemoryAdd).setOnClickListener { onMemoryAdd() }
-        findViewById<Button>(R.id.btnMemorySubtract).setOnClickListener { onMemorySubtract() }
-        findViewById<Button>(R.id.btnMemoryRecall).setOnClickListener { onMemoryRecall() }
-        findViewById<Button>(R.id.btnMemoryClear).setOnClickListener { onMemoryClear() }
-        
-        // Theme and History buttons
-        themeToggleButton.setOnClickListener { toggleTheme() }
-        historyToggleButton.setOnClickListener { toggleHistory() }
+        // Utility / scientific buttons
+        findViewById<Button>(R.id.btnPlusMinus).setOnClickListener { onToggleSign() }
+        findViewById<Button>(R.id.btnSqrt).setOnClickListener { onSqrt() }
+        findViewById<Button>(R.id.btnPercent).setOnClickListener { onPercent() }
+        findViewById<Button>(R.id.btnGstPlus).setOnClickListener { onGst(+18) } // TODO: configurable rate
+        findViewById<Button>(R.id.btnGstMinus).setOnClickListener { onGst(-18) }
+        findViewById<Button>(R.id.btnMenu).setOnClickListener { onMenu() }
+
+        // History navigation / utils
+        findViewById<Button>(R.id.btnCheckPrev).setOnClickListener { onHistoryPrev() }
+        findViewById<Button>(R.id.btnCheckNext).setOnClickListener { onHistoryNext() }
+        findViewById<Button>(R.id.btnCorrect).setOnClickListener { onCorrectDoubleZero() }
+        findViewById<Button>(R.id.btnAutoReplay).setOnClickListener { onAutoReplay() }
+
+        // Memory buttons mapped to existing logic when possible
+        findViewById<Button>(R.id.btnMPlus).setOnClickListener { onMemoryAdd() }
+        findViewById<Button>(R.id.btnMMinus).setOnClickListener { onMemorySubtract() }
+        findViewById<Button>(R.id.btnMRC).setOnClickListener { onMRC() }
+        findViewById<Button>(R.id.btnGT).setOnClickListener { onGT() }
+        findViewById<Button>(R.id.btnMU).setOnClickListener { onMU() }
     }
     
     private fun onNumberClick(number: String) {
@@ -184,13 +172,6 @@ class MainActivity : AppCompatActivity() {
         updateDisplay("0")
     }
     
-    private fun onDeleteClick() {
-        if (currentInput.isNotEmpty()) {
-            currentInput = currentInput.dropLast(1)
-            updateDisplay(if (currentInput.isEmpty()) "0" else currentInput)
-        }
-    }
-    
     private fun onDecimalClick() {
         if (shouldResetDisplay) {
             currentInput = "0"
@@ -231,9 +212,9 @@ class MainActivity : AppCompatActivity() {
         memoryValue = 0.0
         updateMemoryIndicator()
     }
-    
+
     private fun updateMemoryIndicator() {
-        memoryIndicator.visibility = if (memoryValue != 0.0) View.VISIBLE else View.GONE
+        // No memory UI badge in this layout; keep for future
     }
     
     private fun updateDisplay(value: String) {
@@ -253,26 +234,76 @@ class MainActivity : AppCompatActivity() {
         if (calculationHistory.size > 50) { // Limit history to 50 items
             calculationHistory.removeAt(calculationHistory.size - 1)
         }
-        historyAdapter.notifyDataSetChanged()
     }
-    
-    private fun toggleHistory() {
-        isHistoryVisible = !isHistoryVisible
-        historyRecyclerView.visibility = if (isHistoryVisible) View.VISIBLE else View.GONE
-        historyToggleButton.text = if (isHistoryVisible) "Hide History" else "Show History"
+
+    // --- New UI action stubs ---
+    private fun onToggleSign() {
+        // TODO: toggle sign of current input
+        currentInput = if (currentInput.startsWith("-")) currentInput.removePrefix("-")
+        else if (currentInput.isNotEmpty()) "-$currentInput" else currentInput
+        updateDisplay(if (currentInput.isEmpty()) "0" else currentInput)
     }
-    
-    private fun toggleTheme() {
-        isDarkTheme = !isDarkTheme
-        sharedPreferences.edit().putBoolean("dark_theme", isDarkTheme).apply()
-        
-        if (isDarkTheme) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
-        
-        // Recreate activity to apply theme
-        recreate()
+
+    private fun onSqrt() {
+        // TODO: improve with proper error handling
+        val value = currentInput.toDoubleOrNull() ?: 0.0
+        val result = kotlin.math.sqrt(value)
+        updateDisplay(formatNumber(result))
+        currentInput = result.toString()
+        shouldResetDisplay = true
+    }
+
+    private fun onPercent() {
+        // TODO: percentage relative to firstOperand/operator if needed
+        val value = currentInput.toDoubleOrNull() ?: 0.0
+        val result = value / 100.0
+        updateDisplay(formatNumber(result))
+        currentInput = result.toString()
+        shouldResetDisplay = true
+    }
+
+    private fun onGst(ratePercent: Int) {
+        // Simple placeholder: apply +/- percentage to current input
+        val value = currentInput.toDoubleOrNull() ?: 0.0
+        val result = value * (1 + ratePercent / 100.0)
+        updateDisplay(formatNumber(result))
+        currentInput = result.toString()
+        shouldResetDisplay = true
+    }
+
+    private fun onHistoryPrev() {
+        // TODO: navigate history backward
+    }
+
+    private fun onHistoryNext() {
+        // TODO: navigate history forward
+    }
+
+    private fun onCorrectDoubleZero() {
+        val s = currentInput.ifEmpty { display.text.toString() }
+        val newS = if (s.endsWith("00")) s.dropLast(1) else s
+        currentInput = newS
+        updateDisplay(if (newS.isEmpty()) "0" else newS)
+    }
+
+    private fun onAutoReplay() {
+        // TODO: repeat last operation
+    }
+
+    private fun onMU() {
+        // TODO: implement Mark Up logic
+    }
+
+    private fun onGT() {
+        // TODO: implement Grand Total logic
+    }
+
+    private fun onMRC() {
+        // TODO: typical behavior: first press recall, second press clear
+        onMemoryRecall()
+    }
+
+    private fun onMenu() {
+        // TODO: open settings/menu
     }
 }
