@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Calculator</string>
+    <string name="memory_indicator">M</string>
+    <string name="show_history">Show History</string>
+    <string name="hide_history">Hide History</string>
+    <string name="theme_toggle">🌙</string>
+    <string name="clear">C</string>
+    <string name="delete">⌫</string>
+    <string name="divide">÷</string>
+    <string name="multiply">×</string>
+    <string name="subtract">-</string>
+    <string name="add">+</string>
+    <string name="equals">=</string>
+    <string name="decimal">.</string>
+    <string name="memory_clear">MC</string>
+    <string name="memory_recall">MR</string>
+    <string name="memory_add">M+</string>
+    <string name="memory_subtract">M-</string>
+    <string name="zero">0</string>
+</resources>

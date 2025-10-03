@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors -->
+    <color name="primary_light">#1976D2</color>
+    <color name="primary_dark">#0D47A1</color>
+    <color name="primary_variant_light">#1565C0</color>
+    <color name="primary_variant_dark">#0277BD</color>
+    
+    <!-- Surface Colors -->
+    <color name="surface_light">#FFFFFF</color>
+    <color name="surface_dark">#121212</color>
+    <color name="surface_variant_light">#F5F5F5</color>
+    <color name="surface_variant_dark">#1F1F1F</color>
+    
+    <!-- Text Colors -->
+    <color name="on_surface_light">#000000</color>
+    <color name="on_surface_dark">#FFFFFF</color>
+    <color name="on_surface_variant_light">#757575</color>
+    <color name="on_surface_variant_dark">#BDBDBD</color>
+    <color name="on_primary">#FFFFFF</color>
+    
+    <!-- Button Colors -->
+    <color name="button_number_light">#E3F2FD</color>
+    <color name="button_number_dark">#263238</color>
+    <color name="button_operator_light">#2196F3</color>
+    <color name="button_operator_dark">#1976D2</color>
+    <color name="button_function_light">#FFF3E0</color>
+    <color name="button_function_dark">#3E2723</color>
+    <color name="button_equals_light">#4CAF50</color>
+    <color name="button_equals_dark">#388E3C</color>
+    <color name="button_memory_light">#E8F5E8</color>
+    <color name="button_memory_dark">#2E7D32</color>
+    
+    <!-- Text on Button Colors -->
+    <color name="on_button_number_light">#1565C0</color>
+    <color name="on_button_number_dark">#E3F2FD</color>
+    <color name="on_button_operator">#FFFFFF</color>
+    <color name="on_button_function_light">#E65100</color>
+    <color name="on_button_function_dark">#FF8A65</color>
+    <color name="on_button_equals">#FFFFFF</color>
+    <color name="on_button_memory_light">#2E7D32</color>
+    <color name="on_button_memory_dark">#E8F5E8</color>
+    
+    <!-- Display Colors -->
+    <color name="display_bg_light">#FAFAFA</color>
+    <color name="display_bg_dark">#1E1E1E</color>
+    <color name="display_border_light">#E0E0E0</color>
+    <color name="display_border_dark">#424242</color>
+</resources>
