@@ -1,5 +1,9 @@
 name: 📊 Project Health Monitor
 
+permissions:
+  contents: read
+  issues: write
+
 on:
   schedule:
     # Run daily at 9 AM UTC

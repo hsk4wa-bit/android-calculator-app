@@ -1,9 +1,14 @@
 name: 🔄 Pull Request Automation
 
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
-    branches: [ main, develop ]
+    # Run for PRs to any base branch
 
 jobs:
   pr-validation:

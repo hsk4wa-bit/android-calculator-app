@@ -1,10 +1,17 @@
 name: 🚀 Build & Release
 
 on:
+  workflow_dispatch:
   push:
-    branches: [ main, develop ]
+    branches:
+      - main
+      - develop
+      - cursor/**
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
+      - develop
+      - cursor/**
   release:
     types: [ published ]
 
