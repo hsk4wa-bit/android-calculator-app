@@ -46,4 +46,33 @@
     <color name="display_bg_dark">#1E1E1E</color>
     <color name="display_border_light">#E0E0E0</color>
     <color name="display_border_dark">#424242</color>
+
+    <!-- New UI Palette (Calculator Refactor) -->
+    <!-- Backgrounds -->
+    <color name="bg_all">#5A5A5A</color>
+    <color name="display_bg">#CFDEE1</color>
+    
+    <!-- Display text -->
+    <color name="display_primary">#101010</color>
+    <color name="display_small">#2A2A2A</color>
+
+    <!-- Keys: Digit -->
+    <color name="key_digit_bg">#9CA3A7</color>
+    <color name="key_digit_bg_pressed">#898F92</color>
+    <color name="key_digit_text">#FFFFFF</color>
+
+    <!-- Keys: Operator -->
+    <color name="key_op_bg">#4B4F52</color>
+    <color name="key_op_bg_pressed">#424548</color>
+    <color name="key_op_text">#FFFFFF</color>
+
+    <!-- Keys: Accent (AC) -->
+    <color name="key_accent_bg">#D48650</color>
+    <color name="key_accent_bg_pressed">#BA7646</color>
+    <color name="key_accent_text">#FFFFFF</color>
+
+    <!-- Keys: Utility (CHECK, CORRECT, AUTO REPLAY, GST, 00, ., etc.) -->
+    <color name="key_util_bg">#3F4245</color>
+    <color name="key_util_bg_pressed">#373A3C</color>
+    <color name="key_util_text">#E8E8E8</color>
 </resources>
